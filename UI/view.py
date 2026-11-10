@@ -38,8 +38,57 @@ class View:
         # --- Sezione 2: Filtraggio ---
         # TODO
 
+        # Dropdown per la selezione della biblioteca.
+        # La prima opzione permette di non applicare il filtro.
+        self.dropdown_biblioteca = ft.Dropdown(
+            label="Seleziona una biblioteca",
+            width=350,
+            options=[
+                ft.dropdown.Option(
+                    key="__none__",
+                    text="Nessun filtro"
+                )
+            ],
+            value="__none__",
+            on_select=self.controller.seleziona_biblioteca
+        )
+
+        # Dropdown per la selezione del genere.
+        # Anche qui inseriamo inizialmente Nessun filtro.
+        self.dropdown_genere = ft.Dropdown(
+            label="Seleziona un genere",
+            width=350,
+            options=[
+                ft.dropdown.Option(
+                    key="__none__",
+                    text="Nessun filtro"
+                )
+            ],
+            value="__none__",
+            on_select=self.controller.seleziona_genere
+        )
+
+        # Carichiamo le opzioni dei due dropdown
+        # richiamando il Controller.
+        self.controller.popola_dropdown()
+
+
         # Sezione 3: Libri
         # TODO
+
+        # Pulsante per avviare la ricerca dei libri
+        self.btn_mostra_libri = ft.Button(
+            content="Mostra Libri",
+            on_click=self.controller.mostra_libri
+        )
+
+        # ListView che conterrà i libri recuperati dal database
+        self.lista_libri = ft.ListView(
+            height=400,
+            spacing=10,
+            padding=10
+        )
+
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
@@ -55,8 +104,34 @@ class View:
             # Sezione 2: Filtraggio
             # TODO
 
+            ft.Text(
+                "Filtra i libri",
+                size=22,
+                weight=ft.FontWeight.BOLD
+            ),
+
+            ft.Row(
+                controls=[
+                    self.dropdown_biblioteca,
+                    self.dropdown_genere
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                wrap=True
+            ),
+
             # Sezione 3: Libri
             # TODO
+            self.btn_mostra_libri,
+
+            ft.Divider(),
+
+            ft.Text(
+                "Lista dei libri",
+                size=22,
+                weight=ft.FontWeight.BOLD
+            ),
+
+            self.lista_libri
         )
 
         self.page.scroll = "adaptive"
